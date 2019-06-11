@@ -31,14 +31,37 @@
         const source = Rx.throwError('This is an error!');
         const example1 = source.pipe(Op.catchError(val => Rx.of(`I caught: ${val}`)));
         example1.subscribe(val => console.log(val));
+        
+        ////////////////////////////////////////////////////
+        //////////////////// switchMap ////////////////////
+        ///////////////////////////////////////////////////
+        // Rx.fromEvent(document, 'click')
+        //     .pipe(
+        //         // restart counter on every click
+        //         Op.switchMap(() => Rx.interval(1000))
+        //     )
+        //     .subscribe(console.log);
 
-        Rx.fromEvent(document, 'click')
-            .pipe(
-                // restart counter on every click
-                Op.switchMap(() => Rx.interval(1000))
-            )
-            .subscribe(console.log);
-       // Rx.interval(1000).subscribe(console.log);
+        // Rx.timer(0, 5000)
+        //     .pipe(
+        //         Op.switchMap(
+        //             _ => Rx.interval(2000),
+        //             (outerValue, innerValue, outerIndex, innerIndex) => ({
+        //                 outerValue,
+        //                 innerValue,
+        //                 outerIndex,
+        //                 innerIndex
+        //             })
+        //         )
+        //     ).subscribe(console.log);
+
+        ////////////////////////////////////////////////////
+        //////////////////// concatMap ////////////////////
+        ///////////////////////////////////////////////////
+        const s = Rx.of(2000, 1000);
+        s.pipe(
+            Op.concatMap(val => Rx.of(`Delayed by: ${val} ms`).pipe(Op.delay(val)))
+        ).subscribe(console.log);
     </script>
 </head>
 
