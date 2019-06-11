@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="rxjs.umd.js"></script>
+    <script>
+        const Rx = rxjs;
+        const Op = rxjs.operators;
+        let myPromise = val => new Promise((resolve, reject) => {
+            resolve(`Num: ${val}`);
+        });
+        let observable = Rx.of(1, 2, 3).pipe(Op.flatMap(num => Rx.of(num * 2)));
+        observable.subscribe(res => console.log(res));
+
+        Rx.of(1, 2, 3).pipe(Op.mergeMap(val => myPromise(val))).subscribe(val => console.log(val));
+        // Rx.range(10).subscribe(val => console.log(val));
+        Rx.of("Hello!").pipe(Op.delay(2000)).subscribe(msg => console.log(msg));
+
+        const sourceOne = Rx.of('Hello');
+        const sourceTwo = Rx.of('World!');
+        const sourceThree = Rx.of('Goodbye');
+        const sourceFour = Rx.of('World!');
+        const example = Rx.zip(
+            sourceOne,
+            sourceTwo.pipe(Op.delay(1000)),
+            sourceThree.pipe(Op.delay(2000)),
+            sourceFour.pipe(Op.delay(3000))
+        );
+        example.subscribe(val => console.log(val));
+
+        const source = Rx.throwError('This is an error!');
+        const example1 = source.pipe(Op.catchError(val => Rx.of(`I caught: ${val}`)));
+        example1.subscribe(val => console.log(val));
+
+        Rx.fromEvent(document, 'click')
+            .pipe(
+                // restart counter on every click
+                Op.switchMap(() => Rx.interval(1000))
+            )
+            .subscribe(console.log);
+       // Rx.interval(1000).subscribe(console.log);
+    </script>
+</head>
+
+<body>
+    Hello
+</body>
+
+</html>
