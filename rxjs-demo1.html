@@ -83,14 +83,89 @@
         ///////////////// from /////////////////////
         ////////////////////////////////////////////
         // Turn an array, promise, or iterable into an observable.
-        const arraySource = Rx.from([1, 2, 3, 4, 5]);
-        //output: 1,2,3,4,5
-        const subscribe = arraySource.subscribe(val => console.log(val));
+        // const arraySource = Rx.from([1, 2, 3, 4, 5]);
+        // //output: 1,2,3,4,5
+        // const subscribe = arraySource.subscribe(val => console.log(val));
 
-        //emit result of promise
-        const promiseSource = Rx.from(new Promise((resolve, reject) => resolve('Hello World!')));
-        //output: 'Hello World'
-        promiseSource.subscribe(val => console.log(val));
+        // //emit result of promise
+        // const promiseSource = Rx.from(new Promise((resolve, reject) => resolve('Hello World!')));
+        // //output: 'Hello World'
+        // promiseSource.subscribe(val => console.log(val));
+        // //  Observable from collection
+        // const map = new Map();
+        // map.set(1, 'Hai')
+        // map.set(2, 'Bye!')
+        // const mapSource = Rx.from(map);
+        // mapSource.subscribe(console.log);
+        // // Observable from string
+        // const name = 'Ramesh';
+        // Rx.from(name).subscribe(console.log);
+
+
+        /////////////////////////////////////////////
+        ///////////////// fromEvent ////////////////
+        ///////////////////////////////////////////
+        // Turn event into observable sequence
+        // const eventSource = Rx.fromEvent(document, 'click');
+        // const example = eventSource.pipe(Op.map(event => `Event time: ${event.timeStamp}`));
+        // example.subscribe(val => console.log(val));
+
+
+        ////////////////////////////////////////////
+        ///////////////// interval ////////////////
+        ///////////////////////////////////////////
+        // Emit numbers in sequence based on provided timeframe.
+        // const source = Rx.interval(1000);
+        // source.subscribe(val => console.log(val));
+
+        ////////////////////////////////////////////
+        ///////////////// of //////////////////////
+        ///////////////////////////////////////////
+        // Emit variable amount of values in a sequence and then emits a complete notification.
+        // const source = Rx.of(1, 2, 3, 4, 5, 6);
+        // const subscribe = source.subscribe({
+        //     next: (val) => console.log(val),
+        //     complete: _ => console.log('Complete!')
+        // });
+
+        ////////////////////////////////////////////
+        ///////////////// range //////////////////////
+        ///////////////////////////////////////////
+        // Emit numbers in provided range in sequence.
+        // const source = Rx.range(1, 10);
+        // const subscribe = source.subscribe({
+        //     next: (val) => console.log(val),
+        //     complete: _ => console.log('Complete!')
+        // });
+
+        ////////////////////////////////////////////
+        ///////////////// throw ///////////////////
+        //////////////////////////////////////////
+        // Emit error on subscription.
+        // const source = Rx.throwError('This is an error!');
+        // const subscribe = source.subscribe({
+        //     next: val => console.log(val),
+        //     complete: () => console.log('Complete!'),
+        //     error: val => console.log(`Error: ${val}`)
+        // });
+
+        ////////////////////////////////////////////
+        ///////////////// throw ///////////////////
+        //////////////////////////////////////////
+        // After given duration, emit numbers in sequence every specified duration.
+
+        // const source = Rx.timer(1000);
+        // // /emit 0 after 1 second then complete, since no second argument is supplied
+        // const subscribe = source.subscribe(val => console.log(val));
+
+        /*
+            timer takes a second argument, how often to emit subsequent values
+            in this case we will emit first value after 1 second and subsequent
+            values every 2 seconds after
+        */
+        const source = Rx.timer(1000, 2000);
+        // output: 0,1,2,3,4,5......
+        const subscribe = source.subscribe(val => console.log(val));
     </script>
 </head>
 
