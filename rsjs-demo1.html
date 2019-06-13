@@ -7,23 +7,90 @@
     <script>
         const Rx = rxjs;
         const Op = rxjs.operators;
+        const Ajax = rxjs.ajax;
         /////////////////////////////////////////////
         ///////////// combineLastest ///////////////
         ////////////////////////////////////////////
-        
+
         // timerOne emits first value at 1s, then once every 4s
-        const timerOne$ = Rx.timer(1000, 4000);
-        // timerTwo emits first value at 2s, then once every 4s
-        const timerTwo$ = Rx.timer(2000, 4000);
-        // timerThree emits first value at 3s, then once every 4s
-        const timerThree$ = Rx.timer(3000, 4000);
-        Rx.combineLatest(timerOne$, timerTwo$, timerThree$).subscribe(([timerValOne, timerValTwo, timerValThree]) => {
-            console.log(
-                `Timer One Latest: ${timerValOne},
-                Timer Two Latest: ${timerValTwo},
-                Timer Three Latest: ${timerValThree}`
-            );
-        });
+        // const timerOne$ = Rx.timer(1000, 4000);
+        // // timerTwo emits first value at 2s, then once every 4s
+        // const timerTwo$ = Rx.timer(2000, 4000);
+        // // timerThree emits first value at 3s, then once every 4s
+        // const timerThree$ = Rx.timer(3000, 4000);
+        // Rx.combineLatest(timerOne$, timerTwo$, timerThree$).subscribe(([timerValOne, timerValTwo, timerValThree]) => {
+        //     console.log(
+        //         `Timer One Latest: ${timerValOne},
+        //         Timer Two Latest: ${timerValTwo},
+        //         Timer Three Latest: ${timerValThree}`
+        //     );
+        // });
+        /////////////////////////////////////////////
+        ///////////// ajax /////////////////////////
+        ////////////////////////////////////////////
+        // const githubUsers = `https://api.github.com/users?per_page=3`;
+        // //  const users = Ajax.ajax(githubUsers).pipe(Op.delay(2000));
+        // const users = Ajax.ajax.getJSON(githubUsers);
+        // users.subscribe(resp => console.log(JSON.stringify(resp, undefined, 2)), err => console.log(err));
+        // const githuberror = "https://api.github.com/error";
+        // const errorUsers = Ajax.ajax.getJSON(githuberror);
+        // errorUsers.subscribe(resp => console.log(resp), err => console.log(err));
+
+        /////////////////////////////////////////////
+        ///////////// create ///////////////////////
+        ////////////////////////////////////////////
+        //    const ob = Rx.Observable.create(observer => {
+        //         observer.next("Hello");
+        //         observer.next("World");
+        //         observer.complete();
+        //     }).pipe(Op.delay(3000));
+        //     ob.subscribe(console.log);
+        //    const ob =  Rx.Observable.create(observer => {
+        //         let value = 0;
+        //         setInterval(_ => {
+        //             if(value % 2 === 0) {
+        //                 observer.next(value);
+        //             }
+        //             value ++;
+        //         }, 1000);
+        //         // return () => clearInterval(interval)
+        //     });
+        //     const subscribe = ob.subscribe(console.log);
+        //     setTimeout(() => {
+        //         subscribe.unsubscribe();
+        //     }, 10000);
+
+        //////////////////////////////////////////////
+        ///////////////// defer /////////////////////
+        ////////////////////////////////////////////
+        // Create an observable with given subscription function.
+        // const s1 = Rx.of(new Date()); //will capture current date time
+        // const s2 = Rx.defer(_ => Rx.of(new Date())); //will capture date time at the moment of subscription
+        // console.log(new Date());
+        // Rx.timer(2000)
+        //     .pipe(Op.switchMap(_ => Rx.merge(s1, s2))).subscribe(console.log);
+
+        //////////////////////////////////////////////
+        ///////////////// empty /////////////////////
+        ////////////////////////////////////////////
+        // Observable that immediately completes.
+        // const subscribe = Rx.empty().subscribe({
+        //     next: _ => console.log("Next"),
+        //     complete: _ => console.log("Complete!")
+        // });
+
+        /////////////////////////////////////////////
+        ///////////////// from /////////////////////
+        ////////////////////////////////////////////
+        // Turn an array, promise, or iterable into an observable.
+        const arraySource = Rx.from([1, 2, 3, 4, 5]);
+        //output: 1,2,3,4,5
+        const subscribe = arraySource.subscribe(val => console.log(val));
+
+        //emit result of promise
+        const promiseSource = Rx.from(new Promise((resolve, reject) => resolve('Hello World!')));
+        //output: 'Hello World'
+        promiseSource.subscribe(val => console.log(val));
     </script>
 </head>
 
