@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <script src="rxjs.umd.js"></script>
+    <script>
+        const Rx = rxjs;
+        const Op = rxjs.operators;
+        /////////////////////////////////////////////
+        ///////////// combineLastest ///////////////
+        ////////////////////////////////////////////
+        
+        // timerOne emits first value at 1s, then once every 4s
+        const timerOne$ = Rx.timer(1000, 4000);
+        // timerTwo emits first value at 2s, then once every 4s
+        const timerTwo$ = Rx.timer(2000, 4000);
+        // timerThree emits first value at 3s, then once every 4s
+        const timerThree$ = Rx.timer(3000, 4000);
+        Rx.combineLatest(timerOne$, timerTwo$, timerThree$).subscribe(([timerValOne, timerValTwo, timerValThree]) => {
+            console.log(
+                `Timer One Latest: ${timerValOne},
+                Timer Two Latest: ${timerValTwo},
+                Timer Three Latest: ${timerValThree}`
+            );
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
